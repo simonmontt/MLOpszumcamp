@@ -14,9 +14,9 @@ services:
       - ~/.mage_data:/$MAGE_CODE_PATH/mage_data
       # Initial credentials to create an IAM user with limited permissions for deployment.
       - ~/.aws:/root/.aws
-      # Local machine’s SSH keys to pull and push to your GitHub repository.
+      # Local machineâ€™s SSH keys to pull and push to your GitHub repository.
       - ~/.ssh:/root/.ssh:ro
-      # Local machine’s GitHub configs
+      # Local machineâ€™s GitHub configs
       - ~/.gitconfig:/root/.gitconfig:ro
     restart: on-failure:5
     networks:
@@ -25,6 +25,7 @@ services:
       - magic-database
     stdin_open: true # used for interactive debugging
     tty: true # used for interactive debugging
+
   magic-database:
     image: pgvector/pgvector:0.6.0-pg16
     env_file:
@@ -38,6 +39,18 @@ services:
     restart: always
     networks:
       - app-network
+
+  mlflow:
+    build:
+      context: .
+      dockerfile: mlflow.dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - "${PWD}/mlflow:/home/mlflow/"
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
