@@ -1,40 +1,26 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
+
+#get_ipython().system('pip freeze | grep scikit-learn')
 
 
-get_ipython().system('pip freeze | grep scikit-learn')
 
 
-# In[4]:
+#get_ipython().system('pip install pyarrow')
 
 
-get_ipython().system('pip install pyarrow')
 
-
-# In[5]:
-
-
-get_ipython().system('python -V')
-
-
-# In[6]:
+#get_ipython().system('python -V')
 
 
 import pickle
 import pandas as pd
 
 
-# In[7]:
-
 
 with open('model.bin', 'rb') as f_in:
     dv, model = pickle.load(f_in)
-
-
-# In[8]:
-
 
 categorical = ['PULocationID', 'DOLocationID']
 
@@ -51,13 +37,7 @@ def read_data(filename):
     return df
 
 
-# In[9]:
-
-
 df = read_data('https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-03.parquet')
-
-
-# In[10]:
 
 
 dicts = df[categorical].to_dict(orient='records')
@@ -65,13 +45,18 @@ X_val = dv.transform(dicts)
 y_pred = model.predict(X_val)
 
 
-# In[12]:
-
-
 print(f' The standard deviation of the predicted duration for this dataset is: {y_pred.std()}')
 
 
-# In[13]:
+# Prompt the user to enter the year
+year = input("Please enter the year: ")
+
+# Prompt the user to enter the month
+month = input("Please enter the month: ")
+
+# Convert inputs to integers
+year = int(year)
+month = int(month)
 
 
 df['ride_id'] = f'{2023:04d}/{3:02d}_' + df.index.astype('str')
@@ -80,7 +65,7 @@ df['ride_id'] = f'{2023:04d}/{3:02d}_' + df.index.astype('str')
 # In[14]:
 
 
-output_file = f'yellow/{2023:04d}-{3:02d}.parquet'
+output_file = f'yellow/{year:04d}-{month:02d}.parquet'
 
 
 # In[20]:
@@ -95,15 +80,7 @@ def save_results(df, y_pred, output_file):
 
 df_mod = save_results(df, y_pred, output_file)
 
-
-# In[21]:
-
-
-df_mod.head(5)
-
-
-# In[22]:
-
+#df_mod.head(5)
 
 df_mod.to_parquet(
     output_file,
@@ -112,3 +89,4 @@ df_mod.to_parquet(
     index=False
 )
 
+print(f' The mean of the predicted duration for this dataset is: {y_pred.mean()}')
