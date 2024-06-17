@@ -1,0 +1,15 @@
+{
+  "id": "a35ec901-76ae-480b-9797-816bb3e12872",
+  "name": "NYC Taxi Data Quality Project",
+  "description": "Homework for Module 5 Zoomcamp description",
+  "dashboard": {
+    "name": "NYC Taxi Data Quality Project",
+    "panels": [],
+    "tabs": [],
+    "tab_id_to_panel_ids": {}
+  },
+  "team_id": null,
+  "date_from": null,
+  "date_to": null,
+  "created_at": "2024-06-17T20:51:56.024469"
+}
